@@ -22,8 +22,4 @@ public final class Position {
         return x + ":" + y;
     }
 
-    public boolean equals(Position otherPosition)
-    {
-        return this.x == otherPosition.x && this.y == otherPosition.y;
-    }
 }

@@ -2,92 +2,39 @@ package MarsRover;
 
 public class MarsRover {
 
+    public static final char MOVE_LETTER = 'M';
+    public static final char LEFT_LETTER = 'L';
+    public static final char RIGHT_LETTER = 'R';
+    public static final String DELIMITER = ":";
     private Position currentPosition;
-    private char currentDirection;
+    private Direction currentDirection;
 
     public MarsRover() {
         currentPosition = new Position(0, 0);
-        currentDirection = 'N';
+        currentDirection = new North();
     }
 
     public String execute(String commands) {
         for (char command : commands.toCharArray()) {
             switch (command) {
-                case 'M':
-                    move();
-                    break;
-                case 'L':
-                    turnLeft();
-                    break;
-                case 'R':
-                    turnRight();
-                    break;
+                case MOVE_LETTER -> move();
+                case LEFT_LETTER -> turnLeft();
+                case RIGHT_LETTER -> turnRight();
             }
         }
 
-        return currentPosition.toString() + ":" + currentDirection;
+        return currentPosition.toString() + DELIMITER + currentDirection;
     }
 
     private void turnRight() {
-        switch (currentDirection) {
-            case 'N':
-                currentDirection = 'E';
-                break;
-            case 'E':
-                currentDirection = 'S';
-                break;
-            case 'S':
-                currentDirection = 'W';
-                break;
-            case 'W':
-                currentDirection = 'N';
-                break;
-        }
+        currentDirection = currentDirection.right();
     }
 
     private void turnLeft() {
-        switch (currentDirection) {
-            case 'N':
-                currentDirection = 'W';
-                break;
-            case 'W':
-                currentDirection = 'S';
-                break;
-            case 'S':
-                currentDirection = 'E';
-                break;
-            case 'E':
-                currentDirection = 'N';
-                break;
-        }
+        currentDirection = currentDirection.left();
     }
 
     private void move() {
-        Position newPosition = currentPosition;
-
-        switch (currentDirection) {
-            case 'N':
-                newPosition = new Position(
-                        currentPosition.x(),
-                        currentPosition.y() < 9 ? currentPosition.y() + 1 : 0);
-                break;
-            case 'S':
-                newPosition = new Position(
-                        currentPosition.x(),
-                        currentPosition.y() > 0 ? currentPosition.y() - 1 : 9);
-                break;
-            case 'E':
-                newPosition = new Position(
-                        currentPosition.x() < 9 ? currentPosition.x() + 1 : 0,
-                        currentPosition.y());
-                break;
-            case 'W':
-                newPosition = new Position(
-                        currentPosition.x() > 0 ? currentPosition.x() - 1 : 9,
-                        currentPosition.y());
-                break;
-        }
-
-        currentPosition = newPosition;
+        currentPosition = currentDirection.forward(currentPosition);
     }
 }
