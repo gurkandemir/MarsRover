@@ -6,8 +6,7 @@ public interface Direction {
     String toString();
 
     Position forward(Position currentPosition);
-
-    static final int BOUNDARY = 10;
+    int BOUNDARY = 10;
 
 }
 

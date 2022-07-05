@@ -1,5 +1,7 @@
 package MarsRover;
 
+import static MarsRover.Direction.BOUNDARY;
+
 public final class Position {
     private final int x;
     private final int y;
@@ -19,7 +21,10 @@ public final class Position {
 
     public String toString()
     {
-        return x + ":" + y;
+        return x % BOUNDARY + ":" + y % BOUNDARY;
     }
 
+    public boolean equals(Position position) {
+        return x == position.x && y == position.y;
+    }
 }
